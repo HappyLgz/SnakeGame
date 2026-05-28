@@ -54,6 +54,7 @@ void Snake::readyMove()
             step = newStep;
         }
     }
+    dirBuffer.push_back(step);
 }
 
 void Snake::init(Direction dir)
@@ -106,6 +107,10 @@ std::optional<Point> Snake::shrink()
 {
     if(snake.empty()){
         return std::nullopt;
+    }
+    if(!dirBuffer.empty()){
+        dirBuffer.pop_back();
+        step = dirBuffer.back();
     }
     Point oldHead = snake.back();
     snake.pop_back();

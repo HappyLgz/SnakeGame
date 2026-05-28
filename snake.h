@@ -32,12 +32,15 @@ public:
 private:
     static constexpr int cmdLength = 4;
 
+//    static constexpr int dirLength = 4; //保存过去四次移动的方向
+
     static constexpr int threshold = 100;
 
     std::deque<Point> snake;
     int snakeLength = 0;
 
     FixedFifo<Direction,cmdLength> cmd;
+    std::deque<Point> dirBuffer; //备份每次移动的方向
     Point step;
 
     int actionPoints = 0;
