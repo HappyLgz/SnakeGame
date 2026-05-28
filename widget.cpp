@@ -5,14 +5,12 @@ Widget::Widget(QWidget *parent)
 {
     gameLogic = new GameLogic(1,0);
     timer = new QTimer(this);
-    // 初始化游戏
+
     gameLogic->startGame();
 
-    // 设置定时器
     connect(timer, &QTimer::timeout, this, &Widget::gameLoop);
     timer->start(15);
 
-    // 设置窗口大小
     cellSize = 25;
     margin = 10;
     int width = GameBoard::cols * cellSize + 2 * margin;
@@ -57,13 +55,11 @@ void Widget::drawGrid(QPainter &painter)
 {
     painter.setPen(QPen(Qt::darkGray, 1));
 
-    // 绘制垂直线
     for (int x = 0; x <= GameBoard::cols; ++x) {
         int xPos = margin + x * cellSize;
         painter.drawLine(xPos, margin, xPos, margin + GameBoard::rows * cellSize);
     }
 
-    // 绘制水平线
     for (int y = 0; y <= GameBoard::rows; ++y) {
         int yPos = margin + y * cellSize;
         painter.drawLine(margin, yPos, margin + GameBoard::cols * cellSize, yPos);
@@ -125,10 +121,10 @@ void Widget::drawEntities(QPainter &painter)
             int yPos = margin + y * cellSize + 2;
 
             if (cell.type == GameBoard::Entity::Food) {
-                // 食物画成圆形
+
                 painter.drawEllipse(xPos, yPos, cellSize - 4, cellSize - 4);
             } else {
-                // 蛇身画成矩形
+
                 painter.drawRect(xPos, yPos, cellSize - 4, cellSize - 4);
             }
         }
@@ -151,12 +147,11 @@ void Widget::drawSnakeHeads(QPainter &painter)
         if (cell.type != GameBoard::Entity::Snake) continue;
 
         QColor color = getSnakeColor(cell.ownerId);
-        painter.setBrush(color.darker(150)); // 头部颜色更深
+        painter.setBrush(color.darker(150)); 
 
         int xPos = margin + head.x() * cellSize + 1;
         int yPos = margin + head.y() * cellSize + 1;
 
-        // 蛇头画成稍大的圆角矩形
         QRect rect(xPos, yPos, cellSize - 2, cellSize - 2);
         painter.drawRoundedRect(rect, 4, 4);
     }
@@ -164,7 +159,6 @@ void Widget::drawSnakeHeads(QPainter &painter)
 
 QColor Widget::getSnakeColor(uint playerId) const
 {
-    // 为不同玩家分配不同颜色
     switch (playerId) {
     case 1: return QColor(0, 200, 0);      // 玩家1: 绿色
     case 2: return QColor(0, 100, 255);    // 玩家2: 蓝色
@@ -197,10 +191,8 @@ QColor Widget::getEntityColor(GameBoard::Entity entity, uint ownerId) const
 
 void Widget::gameLoop()
 {
-    // 更新游戏逻辑
     gameLogic->update();
 
-    // 重绘
     update();
 }
 
@@ -235,15 +227,11 @@ void Widget::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_P:
         // 切换1人/2人模式
-//        if (gameLogic->state() == GameLogic::GameState::Idle ||
-//            gameLogic->state() == GameLogic::GameState::Done) {
         {
             uint8_t currentPlayers = gameLogic->boardData().snakeHeads.size();
             uint8_t newPlayers = (currentPlayers == 1) ? 2 : 1;
             gameLogic->setPlayersNum(newPlayers);
         }
-//            gameLogic->restartGame();
-//        }
         break;
 
     case Qt::Key_Space:
