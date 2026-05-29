@@ -24,19 +24,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+# 添加子目录到包含路径
+INCLUDEPATH += \
+    GameCore \
+    GUI \
+    dataStructure
 
 SOURCES += \
-        main.cpp \
-        widget.cpp \
-    snake.cpp \
-    gamelogic.cpp \
-    gameboard.cpp
+    main.cpp \
+    GUI/widget.cpp \
+    GameCore/snake.cpp \
+    GameCore/gamelogic.cpp \
+    GameCore/gameboard.cpp \
+    GameCore/ai.cpp
 
 HEADERS += \
-        widget.h \
-    snake.h \
-    boundedqueue.h \
-    gamelogic.h \
-    gameboard.h \
-    point.h \
-    rect.h
+    GUI/widget.h \
+    GameCore/snake.h \
+    GameCore/gamelogic.h \
+    GameCore/gameboard.h \
+    GameCore/ai.h \
+    dataStructure/boundedqueue.h \
+    dataStructure/point.h \
+    dataStructure/rect.h
